@@ -1,0 +1,32 @@
+name: JMeter Load Test CI
+
+on: [push] # Le test se lance à chaque fois que tu mets à jour ton projet
+
+jobs:
+  performance-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install JMeter
+        run: |
+          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
+          tar -xzf apache-jmeter-5.6.3.tgz
+
+      - name: Run Surcharge Test (50 users)
+        run: |
+          ./apache-jmeter-5.6.3/bin/jmeter -n -t test_surcharge_connexion.jmx -l results.jtl -Jnb_users=50
+        # On teste le palier critique de 50 users que tu as identifié
+
+      - name: Archive Performance Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-surcharge-report
+          path: results.jtl
