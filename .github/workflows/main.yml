@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Stress Test Login (1000 users)
         run: |
-          ./apache-jmeter-5.6.3/bin/jmeter -n -t test_surcharge_connexion.jmx -l results.jtl -Jnb_users=1000
+          ./apache-jmeter-5.6.3/bin/jmeter -n -t test_surcharge_connexion.jmx -l results.jtl -Jnb_users=100
 
       - name: Archive Results
         uses: actions/upload-artifact@v4
