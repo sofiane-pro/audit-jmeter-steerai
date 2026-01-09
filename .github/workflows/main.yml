@@ -1,0 +1,34 @@
+name: Audit Performance Login CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  performance-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Installer et Lancer le Backend
+        run: |
+          cd backend
+          npm install express cors
+          node server.js &
+          sleep 10
+
+      - name: Install JMeter
+        run: |
+          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz
+          tar -xzf apache-jmeter-5.6.3.tgz
+
+      - name: Run Stress Test Login (1000 users)
+        run: |
+          ./apache-jmeter-5.6.3/bin/jmeter -n -t test_surcharge_connexion.jmx -l results.jtl -Jnb_users=1000
+
+      - name: Archive Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-results
+          path: results.jtl
