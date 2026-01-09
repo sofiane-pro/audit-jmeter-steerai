@@ -1,8 +1,6 @@
 name: Audit Performance Login CI
 
-on:
-  push:
-    branches: [ main ]
+on: [push]
 
 jobs:
   performance-audit:
@@ -16,7 +14,7 @@ jobs:
           cd Backend
           npm install express cors
           node server.js &
-          sleep 10
+          sleep 20 # Augmenté pour éviter l'erreur 404
 
       - name: Install JMeter
         run: |
