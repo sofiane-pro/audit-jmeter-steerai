@@ -13,7 +13,7 @@ jobs:
 
       - name: Installer et Lancer le Backend
         run: |
-          cd backend
+          cd Backend
           npm install express cors
           node server.js &
           sleep 10
@@ -32,3 +32,4 @@ jobs:
         with:
           name: jmeter-results
           path: results.jtl
+
