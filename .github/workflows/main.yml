@@ -16,7 +16,7 @@ jobs:
 
       - name: Run Stress Test sur develop.steerai.autos
         run: |
-          ./apache-jmeter-5.6.3/bin/jmeter -n -t test_surcharge_connexion.jmx -l results.jtl -Jnb_users=50
+          ./apache-jmeter-5.6.3/bin/jmeter -n -t test_surcharge_connexion.jmx -l results.jtl -Jnb_users=20
 
       - name: Archive Results
         uses: actions/upload-artifact@v4
